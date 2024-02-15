@@ -1,4 +1,5 @@
 from django.shortcuts import render,redirect
+from vendor.forms import VendorForm
 from .forms import UserForm
 from .models import User
 from django.contrib import messages
@@ -39,3 +40,41 @@ def registerUser(request):
         'form': form,
     }
     return render(request, 'accounts/registerUser.html', context)
+
+# def registerVendor(request):
+#     form=UserForm()
+#     v_form=VendorForm()
+    
+    
+#     context={
+#         'form':form,
+#         'v_form':v_form
+#     }
+#     return render(request,'accounts/registerVendor.html',context)
+
+def registerVendor(request):
+    form=UserForm()
+    if request.method == 'POST':
+        v_form = VendorForm(request.POST, request.FILES)
+        if v_form.is_valid():
+            # Process the form data if it's valid
+            # Redirect or perform other actions
+            pass
+        else:
+            # If the form is not valid, handle the errors
+            print(v_form.errors)  # Print the form errors to the console for debugging
+            # You can also pass the form with errors to the template context if needed
+            context = {
+                'v_form': v_form,
+            }
+            return render(request, 'accounts/registerVendor.html', context)
+    else:
+        # If it's a GET request, initialize a new form
+        v_form = VendorForm()
+
+    # Render the template with the form
+    context = {
+        'form':form,
+        'V_form': v_form,
+    }
+    return render(request, 'accounts/registerVendor.html', context)
